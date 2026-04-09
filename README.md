@@ -2,6 +2,20 @@
 
 # 
 
+ script that flips every repo to public 
+
+ A few things worth knowing before you run it:
+ 
+Token scope. A classic PAT needs the repo scope. A fine-grained PAT needs Administration: Read and write on all your repos. Without sufficient scope, the PATCH returns 403.
+
+Dry run first. I left DRY_RUN = True on purpose. Run it once, eyeball the list, then set it to False. With ~900 repos, you really don't want a typo or a misunderstood filter to surprise you.
+
+Forks are skipped by default. Flip SKIP_FORKS = False if you want them included.
+
+Org repos are excluded. affiliation=owner only returns repos you personally own. If you also want repos in organizations you admin, remove that filter, but then visibility changes may be blocked by org policy.
+
+Irreversible-ish. Making a repo public exposes its full git history, including any secrets ever committed. If you've ever pushed an API key, password, or .env file to a private repo, it'll become world-readable. GitHub also has org/enterprise settings that can block private→public flips, in which case you'll see 422 errors in the output.
+
 --------------------------------------------------------------------------------------------------------------------------
 
 ## Automated architecture diagram
